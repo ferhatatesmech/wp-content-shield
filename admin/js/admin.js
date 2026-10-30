@@ -70,6 +70,9 @@
                 $('#disable_print').prop('checked', true);
                 $('#disable_devtools').prop('checked', true);
                 $('#enable_devtools_detector').prop('checked', true);
+                $('#enable_debugger_freeze').prop('checked', true);
+                $('#enable_devtools_overlay').prop('checked', true);
+                $('#enable_anti_offline').prop('checked', true);
 
                 $('#disable_image_drag').prop('checked', true);
                 $('#protect_images_overlay').prop('checked', true);
@@ -99,6 +102,9 @@
                 $('#disable_print').prop('checked', true);
                 $('#disable_devtools').prop('checked', true);
                 $('#enable_devtools_detector').prop('checked', false);
+                $('#enable_debugger_freeze').prop('checked', true);
+                $('#enable_devtools_overlay').prop('checked', false);
+                $('#enable_anti_offline').prop('checked', true);
 
                 $('#disable_image_drag').prop('checked', true);
                 $('#protect_images_overlay').prop('checked', true);
@@ -127,6 +133,9 @@
                     $('#disable_print').prop('checked', true);
                     $('#disable_devtools').prop('checked', true);
                     $('#enable_devtools_detector').prop('checked', true);
+                    $('#enable_debugger_freeze').prop('checked', true);
+                    $('#enable_devtools_overlay').prop('checked', true);
+                    $('#enable_anti_offline').prop('checked', true);
                     $('#disable_image_drag').prop('checked', true);
                     $('#protect_images_overlay').prop('checked', true);
                     $('#disable_link_drag').prop('checked', true);

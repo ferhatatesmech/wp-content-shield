@@ -57,6 +57,9 @@ class WP_Content_Shield_Admin {
             'disable_print',
             'disable_devtools',
             'enable_devtools_detector',
+            'enable_debugger_freeze',
+            'enable_devtools_overlay',
+            'enable_anti_offline',
             'disable_image_drag',
             'protect_images_overlay',
             'disable_link_drag',
@@ -376,6 +379,32 @@ class WP_Content_Shield_Admin {
                                         </label>
                                     </div>
                                 </div>
+
+                                <div class="wp-shield-setting-row">
+                                    <div class="setting-meta">
+                                        <label for="enable_debugger_freeze">Freeze DevTools via Debugger Loop (Even from Browser Menu)</label>
+                                        <p class="description">Traps and locks developer tools with an execution debugger loop if a visitor opens DevTools from browser menus or shortcuts, rendering inspection impossible.</p>
+                                    </div>
+                                    <div class="setting-control">
+                                        <label class="wp-shield-switch">
+                                            <input type="checkbox" id="enable_debugger_freeze" name="<?php echo WP_Content_Shield_Core::OPTION_KEY; ?>[enable_debugger_freeze]" value="1" <?php checked(1, !empty($options['enable_debugger_freeze'])); ?>>
+                                            <span class="slider"></span>
+                                        </label>
+                                    </div>
+                                </div>
+
+                                <div class="wp-shield-setting-row">
+                                    <div class="setting-meta">
+                                        <label for="enable_devtools_overlay">Full-Screen Security Curtain on DevTools Open</label>
+                                        <p class="description">Displays a full-screen protective curtain over the website while developer inspection tools remain open.</p>
+                                    </div>
+                                    <div class="setting-control">
+                                        <label class="wp-shield-switch">
+                                            <input type="checkbox" id="enable_devtools_overlay" name="<?php echo WP_Content_Shield_Core::OPTION_KEY; ?>[enable_devtools_overlay]" value="1" <?php checked(1, !empty($options['enable_devtools_overlay'])); ?>>
+                                            <span class="slider"></span>
+                                        </label>
+                                    </div>
+                                </div>
                             </div>
                         </div>
 
@@ -451,6 +480,19 @@ class WP_Content_Shield_Admin {
                                     <div class="setting-control">
                                         <label class="wp-shield-switch">
                                             <input type="checkbox" id="anti_iframe" name="<?php echo WP_Content_Shield_Core::OPTION_KEY; ?>[anti_iframe]" value="1" <?php checked(1, $options['anti_iframe']); ?>>
+                                            <span class="slider"></span>
+                                        </label>
+                                    </div>
+                                </div>
+
+                                <div class="wp-shield-setting-row">
+                                    <div class="setting-meta">
+                                        <label for="enable_anti_offline">Anti-Offline Self-Destruct Layer (Anti-Save Defense)</label>
+                                        <p class="description">Even if a visitor uses browser menus (File > Save Page As) to save HTML, the content self-destructs into a copyright warning whenever opened offline or locally.</p>
+                                    </div>
+                                    <div class="setting-control">
+                                        <label class="wp-shield-switch">
+                                            <input type="checkbox" id="enable_anti_offline" name="<?php echo WP_Content_Shield_Core::OPTION_KEY; ?>[enable_anti_offline]" value="1" <?php checked(1, !empty($options['enable_anti_offline'])); ?>>
                                             <span class="slider"></span>
                                         </label>
                                     </div>

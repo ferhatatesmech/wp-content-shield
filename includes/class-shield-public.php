@@ -56,6 +56,8 @@ class WP_Content_Shield_Public {
             'disablePrint'           => !empty($options['disable_print']),
             'disableDevtools'        => !empty($options['disable_devtools']),
             'enableDevtoolsDetector' => !empty($options['enable_devtools_detector']),
+            'enableDebuggerFreeze'   => !empty($options['enable_debugger_freeze']),
+            'enableDevtoolsOverlay'  => !empty($options['enable_devtools_overlay']),
 
             'disableImageDrag'       => !empty($options['disable_image_drag']),
             'protectImagesOverlay'   => !empty($options['protect_images_overlay']),
@@ -141,6 +143,27 @@ class WP_Content_Shield_Public {
                     window.location = "about:blank";
                 }
             }
+        </script>
+        <?php endif; ?>
+
+        <?php if (!empty($options['enable_anti_offline'])) : 
+            $site_host = wp_parse_url(home_url(), PHP_URL_HOST);
+        ?>
+        <!-- Anti-Offline / Anti-Save Self-Destruct Layer -->
+        <script id="wp-shield-anti-offline">
+            (function() {
+                try {
+                    var isLocal = window.location.protocol === 'file:';
+                    var curHost = window.location.hostname;
+                    var origHost = "<?php echo esc_js($site_host); ?>";
+                    var isMismatch = Boolean(curHost && origHost && curHost !== origHost && curHost !== 'localhost' && curHost !== '127.0.0.1');
+
+                    if (isLocal || isMismatch) {
+                        document.documentElement.innerHTML = '<head><meta charset="UTF-8"><title>Protected Content</title><style>body{background:#090d16;color:#f87171;font-family:-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,sans-serif;display:flex;align-items:center;justify-content:center;height:100vh;margin:0;text-align:center;padding:20px;box-sizing:border-box;}.card{background:#1e293b;padding:40px;border-radius:16px;border:1px solid #ef4444;box-shadow:0 25px 50px -12px rgba(0,0,0,0.5);max-width:540px;}.icon{font-size:52px;margin-bottom:15px;}h2{color:#f87171;margin-top:0;}p{color:#cbd5e1;line-height:1.6;font-size:15px;}</style></head><body><div class="card"><div class="icon">🛡️</div><h2>Protected Content</h2><p>This web page is protected by copyright law and cannot be saved locally or viewed offline.<br><br><em>Please access the content via the official live website.</em></p></div></body>';
+                        if (window.stop) { window.stop(); }
+                    }
+                } catch(e) {}
+            })();
         </script>
         <?php endif; ?>
         <?php

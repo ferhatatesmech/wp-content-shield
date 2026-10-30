@@ -52,11 +52,14 @@
 | **Save Page Lock** | Blocks `Ctrl + S` and `Cmd + S` page saving. |
 | **Print & PDF Lock** | Disables `Ctrl + P`, `window.print()`, and blanks pages during print requests via `@media print`. |
 | **DevTools Hotkeys Lock** | Disables `F12`, `Ctrl + Shift + I/J/C`, and `Ctrl + Shift + K`. |
-| **DevTools Detection** | Viewport delta analysis triggers console clearing and security banners. |
+| **Debugger Freeze Trap** | Traps and locks DevTools in an infinite debugger loop even if opened via browser menus (3 dots > More Tools). |
+| **DevTools Screen Curtain** | Overlays a full-screen protective curtain obscuring the website while DevTools remains open. |
+| **DevTools Detection** | Viewport delta and execution timing analysis triggers console clearing and security banners. |
 
 ### 🌐 4. Advanced Security & Scrapers Defense
 | Feature | Description |
 | :--- | :--- |
+| **Anti-Offline Self-Destruct** | Even if saved via browser menus (File > Save Page As), offline HTML self-destructs into a copyright warning when opened. |
 | **Anti-iFrame Frame Buster** | Blocks clickjacking and unauthorized embedding inside third-party iframes (`X-Frame-Options: SAMEORIGIN`). |
 | **RSS Feed Protection** | Converts full RSS feed items into brief summaries with canonical source links to deter scraper bots. |
 | **Clipboard Watermark** | (Optional) Automatically appends your website's canonical source link and copyright notice if text is copied. |

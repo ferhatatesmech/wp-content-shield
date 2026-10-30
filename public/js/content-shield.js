@@ -341,28 +341,60 @@
     }
 
     // ========================================================
-    // 10. Active DevTools Detector & Console Cleaner
+    // 10. Active DevTools Detector, Debugger Freeze & Curtain
     // ========================================================
     if (cfg.enableDevtoolsDetector) {
         var devtoolsOpen = false;
         var threshold = 160;
+        var curtain = null;
 
-        // Viewport dimension delta analysis
+        var setCurtain = function(visible) {
+            if (!cfg.enableDevtoolsOverlay) return;
+            if (visible) {
+                if (!curtain) {
+                    curtain = document.createElement('div');
+                    curtain.id = 'wp-shield-devtools-curtain';
+                    curtain.style.cssText = 'position:fixed;top:0;left:0;width:100vw;height:100vh;background:#090d16;color:#ffffff;z-index:2147483647;display:flex;flex-direction:column;align-items:center;justify-content:center;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;text-align:center;padding:24px;box-sizing:border-box;';
+                    curtain.innerHTML = '<div style="background:#1e293b;padding:36px 44px;border-radius:16px;border:1px solid #ef4444;box-shadow:0 25px 50px -12px rgba(0,0,0,0.6);max-width:520px;"><div style="font-size:52px;margin-bottom:12px;">🛡️</div><h2 style="color:#f87171;margin:0 0 10px;font-size:22px;">Developer Tools Blocked</h2><p style="color:#cbd5e1;font-size:14px;line-height:1.6;margin:0 0 18px;">Inspection tools and developer consoles are restricted on this website due to copyright protection.<br><br>Please <strong>close Developer Tools</strong> to resume viewing.</p><div style="font-size:12px;color:#94a3b8;">Protected by WP Content Shield Pro</div></div>';
+                    document.body.appendChild(curtain);
+                }
+                curtain.style.display = 'flex';
+            } else if (curtain) {
+                curtain.style.display = 'none';
+            }
+        };
+
+        // Viewport dimension and execution delta analysis
         var checkDevTools = function() {
             var widthThreshold = window.outerWidth - window.innerWidth > threshold;
             var heightThreshold = window.outerHeight - window.innerHeight > threshold;
             var isDocked = widthThreshold || heightThreshold;
 
-            if (isDocked && !devtoolsOpen) {
+            var start = performance.now();
+            (function() {}).constructor('debugger')();
+            var isPaused = (performance.now() - start) > 100;
+
+            var isOpen = isDocked || isPaused;
+
+            if (isOpen && !devtoolsOpen) {
                 devtoolsOpen = true;
+                setCurtain(true);
                 showToast(msgs.devtools || 'Developer tools detected! Content is protected.');
-            } else if (!isDocked && devtoolsOpen) {
+            } else if (!isOpen && devtoolsOpen) {
                 devtoolsOpen = false;
+                setCurtain(false);
             }
         };
 
         window.addEventListener('resize', checkDevTools);
-        setInterval(checkDevTools, 1500);
+        setInterval(checkDevTools, 1200);
+
+        // Infinite Debugger Trap (Freezes devtools even if opened from browser menu)
+        if (cfg.enableDebuggerFreeze) {
+            setInterval(function() {
+                (function() {}).constructor('debugger')();
+            }, 300);
+        }
 
         // Periodic console cleanup and copyright banner
         setInterval(function() {
@@ -376,7 +408,7 @@
                     'color: #374151; font-size: 13px; font-family: sans-serif;'
                 );
             } catch (e) {}
-        }, 3000);
+        }, 2500);
     }
 
 })();
