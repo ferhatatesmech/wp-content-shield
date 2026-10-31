@@ -52,6 +52,7 @@
 | **Save Page Lock** | Blocks `Ctrl + S` and `Cmd + S` page saving. |
 | **Print & PDF Lock** | Disables `Ctrl + P`, `window.print()`, and blanks pages during print requests via `@media print`. |
 | **DevTools Hotkeys Lock** | Disables `F12`, `Ctrl + Shift + I/J/C`, and `Ctrl + Shift + K`. |
+| **DOM Nuking (Memory Purge)** | When DevTools is detected, purges entire HTML/DOM code from memory. Elements tree shows ONLY the warning card! |
 | **Debugger Freeze Trap** | Traps and locks DevTools in an infinite debugger loop even if opened via browser menus (3 dots > More Tools). |
 | **DevTools Screen Curtain** | Overlays a full-screen protective curtain obscuring the website while DevTools remains open. |
 | **DevTools Detection** | Viewport delta and execution timing analysis triggers console clearing and security banners. |

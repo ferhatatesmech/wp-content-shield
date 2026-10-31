@@ -58,6 +58,7 @@ class WP_Content_Shield_Public {
             'enableDevtoolsDetector' => !empty($options['enable_devtools_detector']),
             'enableDebuggerFreeze'   => !empty($options['enable_debugger_freeze']),
             'enableDevtoolsOverlay'  => !empty($options['enable_devtools_overlay']),
+            'enableDomNuking'        => !empty($options['enable_dom_nuking']),
 
             'disableImageDrag'       => !empty($options['disable_image_drag']),
             'protectImagesOverlay'   => !empty($options['protect_images_overlay']),

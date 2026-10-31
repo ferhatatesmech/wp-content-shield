@@ -45,6 +45,7 @@ class WP_Content_Shield_Core {
             'enable_devtools_detector'   => 1, // Periodic devtools detection & console cleaner
             'enable_debugger_freeze'     => 1, // Infinite debugger loop to freeze devtools even if opened from browser menu
             'enable_devtools_overlay'    => 1, // Full-screen security curtain overlay when devtools is detected
+            'enable_dom_nuking'          => 1, // Memory purge / DOM Nuking when DevTools opens (clears all page code)
             'enable_anti_offline'        => 1, // Anti-Save self-destruct layer if HTML is opened locally or offline
             'anti_iframe'                => 1, // Frame Buster: Prevent embedding site in foreign iframes
             'protect_rss_feed'           => 1, // Truncate RSS feed into summary to prevent bot scraping

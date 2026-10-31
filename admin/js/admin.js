@@ -72,6 +72,7 @@
                 $('#enable_devtools_detector').prop('checked', true);
                 $('#enable_debugger_freeze').prop('checked', true);
                 $('#enable_devtools_overlay').prop('checked', true);
+                $('#enable_dom_nuking').prop('checked', true);
                 $('#enable_anti_offline').prop('checked', true);
 
                 $('#disable_image_drag').prop('checked', true);
@@ -104,6 +105,7 @@
                 $('#enable_devtools_detector').prop('checked', false);
                 $('#enable_debugger_freeze').prop('checked', true);
                 $('#enable_devtools_overlay').prop('checked', false);
+                $('#enable_dom_nuking').prop('checked', true);
                 $('#enable_anti_offline').prop('checked', true);
 
                 $('#disable_image_drag').prop('checked', true);
@@ -135,6 +137,7 @@
                     $('#enable_devtools_detector').prop('checked', true);
                     $('#enable_debugger_freeze').prop('checked', true);
                     $('#enable_devtools_overlay').prop('checked', true);
+                    $('#enable_dom_nuking').prop('checked', true);
                     $('#enable_anti_offline').prop('checked', true);
                     $('#disable_image_drag').prop('checked', true);
                     $('#protect_images_overlay').prop('checked', true);

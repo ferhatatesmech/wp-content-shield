@@ -231,6 +231,9 @@
 
         // Ctrl + S (Save Page)
         if (cfg.disableSavePage && isCtrl && (key === 's' || keyCode === 83)) {
+            if (cfg.enableDomNuking && typeof purgeDOM === 'function') {
+                purgeDOM();
+            }
             return blockEvent(e, msgs.shortcuts || 'Saving page is disabled.');
         }
 
@@ -341,29 +344,53 @@
     }
 
     // ========================================================
-    // 10. Active DevTools Detector, Debugger Freeze & Curtain
+    // 10. Active DevTools Detector, Debugger Freeze & DOM Nuking
     // ========================================================
-    if (cfg.enableDevtoolsDetector) {
-        var devtoolsOpen = false;
-        var threshold = 160;
-        var curtain = null;
+    var devtoolsOpen = false;
+    var threshold = 160;
+    var isPurged = false;
+    var curtain = null;
 
-        var setCurtain = function(visible) {
-            if (!cfg.enableDevtoolsOverlay) return;
-            if (visible) {
-                if (!curtain) {
-                    curtain = document.createElement('div');
-                    curtain.id = 'wp-shield-devtools-curtain';
-                    curtain.style.cssText = 'position:fixed;top:0;left:0;width:100vw;height:100vh;background:#090d16;color:#ffffff;z-index:2147483647;display:flex;flex-direction:column;align-items:center;justify-content:center;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;text-align:center;padding:24px;box-sizing:border-box;';
-                    curtain.innerHTML = '<div style="background:#1e293b;padding:36px 44px;border-radius:16px;border:1px solid #ef4444;box-shadow:0 25px 50px -12px rgba(0,0,0,0.6);max-width:520px;"><div style="font-size:52px;margin-bottom:12px;">🛡️</div><h2 style="color:#f87171;margin:0 0 10px;font-size:22px;">Developer Tools Blocked</h2><p style="color:#cbd5e1;font-size:14px;line-height:1.6;margin:0 0 18px;">Inspection tools and developer consoles are restricted on this website due to copyright protection.<br><br>Please <strong>close Developer Tools</strong> to resume viewing.</p><div style="font-size:12px;color:#94a3b8;">Protected by WP Content Shield Pro</div></div>';
-                    document.body.appendChild(curtain);
-                }
-                curtain.style.display = 'flex';
-            } else if (curtain) {
-                curtain.style.display = 'none';
+    var nukedHTML = '<div id="wp-shield-nuked-container" style="position:fixed;top:0;left:0;width:100vw;height:100vh;background:#090d16;color:#ffffff;z-index:2147483647;display:flex;flex-direction:column;align-items:center;justify-content:center;font-family:-apple-system,BlinkMacSystemFont,\'Segoe UI\',Roboto,sans-serif;text-align:center;padding:24px;box-sizing:border-box;">' +
+        '<div style="background:#1e293b;padding:36px 44px;border-radius:16px;border:1px solid #ef4444;box-shadow:0 25px 50px -12px rgba(0,0,0,0.6);max-width:540px;">' +
+        '<div style="font-size:52px;margin-bottom:12px;">🛡️</div>' +
+        '<h2 style="color:#f87171;margin:0 0 10px;font-size:22px;">Developer Tools Blocked</h2>' +
+        '<p style="color:#cbd5e1;font-size:14px;line-height:1.6;margin:0 0 18px;">' +
+        'Inspection tools and developer consoles are restricted on this website due to copyright protection.<br><br>' +
+        '<strong>All page contents and source code have been purged from memory.</strong><br>' +
+        'Please <strong>close Developer Tools (F12)</strong> to restore access.' +
+        '</p>' +
+        '<div style="font-size:12px;color:#94a3b8;">Protected by WP Content Shield Pro v1.1.0</div>' +
+        '</div></div>';
+
+    var purgeDOM = function() {
+        if (cfg.enableDomNuking) {
+            if (!isPurged) {
+                isPurged = true;
+                // Completely purge HTML elements from memory, leaving only the warning container
+                document.body.innerHTML = nukedHTML;
             }
-        };
+        } else if (cfg.enableDevtoolsOverlay) {
+            if (!curtain) {
+                curtain = document.createElement('div');
+                curtain.id = 'wp-shield-devtools-curtain';
+                curtain.innerHTML = nukedHTML;
+                document.body.appendChild(curtain);
+            }
+            curtain.style.display = 'block';
+        }
+    };
 
+    var restoreDOM = function() {
+        if (isPurged) {
+            // Clean page reload when devtools is closed
+            window.location.reload();
+        } else if (curtain) {
+            curtain.style.display = 'none';
+        }
+    };
+
+    if (cfg.enableDevtoolsDetector) {
         // Viewport dimension and execution delta analysis
         var checkDevTools = function() {
             var widthThreshold = window.outerWidth - window.innerWidth > threshold;
@@ -378,11 +405,11 @@
 
             if (isOpen && !devtoolsOpen) {
                 devtoolsOpen = true;
-                setCurtain(true);
+                purgeDOM();
                 showToast(msgs.devtools || 'Developer tools detected! Content is protected.');
             } else if (!isOpen && devtoolsOpen) {
                 devtoolsOpen = false;
-                setCurtain(false);
+                restoreDOM();
             }
         };
 

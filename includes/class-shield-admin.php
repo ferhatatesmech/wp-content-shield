@@ -59,6 +59,7 @@ class WP_Content_Shield_Admin {
             'enable_devtools_detector',
             'enable_debugger_freeze',
             'enable_devtools_overlay',
+            'enable_dom_nuking',
             'enable_anti_offline',
             'disable_image_drag',
             'protect_images_overlay',
@@ -401,6 +402,19 @@ class WP_Content_Shield_Admin {
                                     <div class="setting-control">
                                         <label class="wp-shield-switch">
                                             <input type="checkbox" id="enable_devtools_overlay" name="<?php echo WP_Content_Shield_Core::OPTION_KEY; ?>[enable_devtools_overlay]" value="1" <?php checked(1, !empty($options['enable_devtools_overlay'])); ?>>
+                                            <span class="slider"></span>
+                                        </label>
+                                    </div>
+                                </div>
+
+                                <div class="wp-shield-setting-row highlight">
+                                    <div class="setting-meta">
+                                        <label for="enable_dom_nuking">💥 Purge Source Code from Memory on DevTools (DOM Nuking)</label>
+                                        <p class="description"><strong>Ultra Security:</strong> When F12 or Developer Tools are detected, the entire page content, images, and text are immediately purged from browser memory (DOM). The Elements inspector displays <u>only the warning container</u> and zero site code!</p>
+                                    </div>
+                                    <div class="setting-control">
+                                        <label class="wp-shield-switch">
+                                            <input type="checkbox" id="enable_dom_nuking" name="<?php echo WP_Content_Shield_Core::OPTION_KEY; ?>[enable_dom_nuking]" value="1" <?php checked(1, !empty($options['enable_dom_nuking'])); ?>>
                                             <span class="slider"></span>
                                         </label>
                                     </div>
